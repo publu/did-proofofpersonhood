@@ -12,7 +12,7 @@ from django.core.files import File
 
 def index(request):
     context = {
-        "url": request.META["SERVER_NAME"] + ':'.join(request.path[:-1].split('/')),
+        "url": request.META["HTTP_HOST"] + ':'.join(request.path[:-1].split('/')),
     }
     return render(request, "didkit_django/index.html", context)
 
@@ -28,7 +28,7 @@ def credential(request):
 def well_known(request):
     # generates the didweb handler
     didWeb = "did:web:" + \
-        request.META["SERVER_NAME"] + ':'.join(request.path[:-1].split('/'))
+        request.META["HTTP_HOST"] + ':'.join(request.path[:-1].split('/'))
 
     # opens the key in order to get the public part of it
     with open(KEY_PATH, "r") as f:
