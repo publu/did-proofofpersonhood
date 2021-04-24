@@ -7,7 +7,7 @@
   </head>
   <body class="flex flex-col items-center justify-center h-screen w-screen">
       <h2>did:web:{{url}}</h2>
-      <form class="flex items-center justify-center my-8" method="post" action="didkit/credential/">
+      <form class="flex items-center justify-center my-8" method="post" action="credential/">
         {% csrf_token %}
         <input type="text" placeholder="Enter your DID:" class="h-12 p-4 border border-blue-900 rounded mr-4" name="subject_id" />
         <input type="number" placeholder="gitCoinTrustBonus:" class="h-12 p-4 border border-blue-900 rounded mr-4" name="gitCoinTrustBonus" />
