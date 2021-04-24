@@ -29,7 +29,7 @@ def well_known(request):
     # generates the didweb handler
     didWeb = "did:web:" + \
         request.META["HTTP_HOST"] + \
-        ':'.join(request.META["HTTP_X_LOCATION"].split('/'))
+        ':'.join(request.META["HTTP_X_LOCATION"][:-1].split('/'))
 
     # opens the key in order to get the public part of it
     with open(KEY_PATH, "r") as f:
