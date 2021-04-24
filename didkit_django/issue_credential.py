@@ -14,7 +14,7 @@ def issueCredential(request):
 
     didWeb = "did:web:" + \
         request.META["HTTP_HOST"] + \
-        ':'.join(request.META["HTTP_X_PATH"][:-1].split('/'))
+        ':'.join(request.META["HTTP_X_LOCATION"][:-1].split('/'))
     subject = request.POST.get('subject_id').__str__()
     gitCoinTrustBonus = float(request.POST.get('gitCoinTrustBonus')).__str__()
     issuance_date = datetime.utcnow().replace(microsecond=0)
