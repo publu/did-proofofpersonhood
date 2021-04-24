@@ -12,16 +12,12 @@ from django.core.files import File
 
 def index(request):
     context = {
-        "url": request.META["SERVER_NAME"],
+        "url": request.META["SERVER_NAME"] + ':'.join(request.path[:-1].split('/')),
     }
     return render(request, "didkit_django/index.html", context)
 
 
 def credential(request):
-
-    didWeb = "did:web:" + request.META["SERVER_NAME"]
-    subject = request.POST.get('subject_id')
-    gitCoinTrustBonus = float(request.POST.get('gitCoinTrustBonus'))
     context = {
         "credential": issueCredential(request),
     }
@@ -31,7 +27,8 @@ def credential(request):
 
 def well_known(request):
     # generates the didweb handler
-    didWeb = "did:web:" + request.META["SERVER_NAME"]
+    didWeb = "did:web:" + \
+        request.META["SERVER_NAME"] + ':'.join(request.path[:-1].split('/'))
 
     # opens the key in order to get the public part of it
     with open(KEY_PATH, "r") as f:
