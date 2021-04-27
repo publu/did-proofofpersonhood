@@ -33,6 +33,23 @@ To do so got to the root folder of this repository and run:
 $ make -C lib install-python
 ```
 
+For the verifier the `node` version of the library also needs to be built:
+```bash
+$ make -C lib ../target/test/node.stamp
+```
+
+Then you will have to link it using `npm`
+
+On the library directory (`didkit/lib/node`) run:
+```bash
+$ npm link
+```
+
+And then, on the verifier directory (`popp-demo/verifier`) run:
+```bash
+$ npm link didkit
+```
+
 ## Running
 
 For the first time running you will need to run the migrations,
@@ -47,4 +64,11 @@ To start the server just run:
 
 ```bash
 $ python3 manage.py runserver
+```
+
+To run the verification server, run the following commands under the `verifier/`
+directory:
+```bash
+$ npm install
+$ npm run dev
 ```
