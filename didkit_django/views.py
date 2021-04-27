@@ -8,11 +8,13 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 from python_django.settings import KEY_PATH
 from django.core.files import File
+from uuid import uuid4
 
 
 def index(request):
+    location = request.META.get("HTTP_X_LOCATION", "/didkit/")
     context = {
-        "url": request.META["HTTP_HOST"] + ':'.join(request.META["HTTP_X_LOCATION"][:-1].split('/')),
+        "url": request.META["HTTP_HOST"] + ':'.join(location[:-1].split('/')),
     }
     return render(request, "didkit_django/index.html", context)
 
@@ -26,10 +28,12 @@ def credential(request):
 
 
 def well_known(request):
+    location = request.META.get("HTTP_X_LOCATION", "/didkit/")
+
     # generates the didweb handler
     didWeb = "did:web:" + \
         request.META["HTTP_HOST"] + \
-        ':'.join(request.META["HTTP_X_LOCATION"][:-1].split('/'))
+        ':'.join(location[:-1].split('/'))
 
     # opens the key in order to get the public part of it
     with open(KEY_PATH, "r") as f:
@@ -37,25 +41,24 @@ def well_known(request):
         key = json.loads(key_file.readline())
     key_file.close()
 
+    key_id = didWeb + "#main"
     # adds the did.json to the context
-    context = {
-        "credential": {
-            "@context": "https://www.w3.org/ns/did/v1",
-            "id": didWeb,
-            "verificationMethod": [
-                {
-                    "id": didWeb,
-                    "type": "Ed25519VerificationKey2018",
-                    "controller": didWeb,
-                    "publicKeyJwk": {
-                        "kty": key["kty"],
-                        "crv": key["crv"],
-                        "x": key["x"]
-                    }
-                }
-            ],
-            "authentication": [didWeb],
-            "assertionMethod": [didWeb],
-        }
+    credential = {
+        "@context":
+        "https://www.w3.org/ns/did/v1",
+        "id":
+        didWeb,
+        "verificationMethod": [{
+            "id": key_id,
+            "type": "Ed25519VerificationKey2018",
+            "controller": didWeb,
+            "publicKeyJwk": {
+                "kty": key["kty"],
+                "crv": key["crv"],
+                "x": key["x"]
+            }
+        }],
+        "authentication": [key_id],
+        "assertionMethod": [key_id],
     }
-    return render(request, "didkit_django/credential.html", context)
+    return JsonResponse(credential)

@@ -12,29 +12,25 @@ def issueCredential(request):
         key = json.loads(key_file.readline())
     key_file.close()
 
+    location = request.META.get("HTTP_X_LOCATION", "/didkit/")
     didWeb = "did:web:" + \
         request.META["HTTP_HOST"] + \
-        ':'.join(request.META["HTTP_X_LOCATION"][:-1].split('/'))
+        ':'.join(location[:-1].split('/'))
     subject = request.POST.get('subject_id').__str__()
     gitCoinTrustBonus = float(request.POST.get('gitCoinTrustBonus')).__str__()
     issuance_date = datetime.utcnow().replace(microsecond=0)
     expiration_date = issuance_date + timedelta(weeks=4)
 
     credential = {
-        "id": subject,
-        "@context": [
-            "https://www.w3.org/2018/credentials/v1"
-        ],
+        "@context": ["https://www.w3.org/2018/credentials/v1"],
         "type": ["VerifiableCredential"],
         "issuer": didWeb,
         "issuanceDate": issuance_date.isoformat() + "Z",
         "expirationDate": expiration_date.isoformat() + "Z",
         "credentialSubject": {
-            "@context": [
-                {
-                    "gitCoinTrustBonus": "https://schema.org/Float",
-                }
-            ],
+            "@context": [{
+                "gitCoinTrustBonus": "https://schema.org/Float",
+            }],
             "id": subject,
             "gitCoinTrustBonus": gitCoinTrustBonus,
         },
@@ -42,7 +38,7 @@ def issueCredential(request):
 
     didkit_options = {
         "proofPurpose": "assertionMethod",
-        "verificationMethod": didWeb,
+        "verificationMethod": didWeb + "#main",
     }
 
     credential = didkit.issueCredential(
