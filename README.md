@@ -81,4 +81,17 @@ You can use the verifier application by uploading a `.json` file.
 
 ```bash
 $ didkit vc-verify-credential -p assertionMethod < vc.json
+=======
+# Term Definition for `gitCoinTrustBonus`
+
+This section on line 32 in `didkit_django/issue_credential.py` should be revised,
+the `@id` property should point to an URL with details about the 
+[term definition](https://www.w3.org/TR/json-ld11/#dfn-term-definition) for
+`gitCoinTrustBonus` that the user might want to check out.
+
+```json
+"gitCoinTrustBonus": {
+  "@id": "https://gitcoin.co/gitCoinTrustBonus",
+  "@type": "https://schema.org/Float"
+}
 ```

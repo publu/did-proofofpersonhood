@@ -29,10 +29,15 @@ def issueCredential(request):
         "expirationDate": expiration_date.isoformat() + "Z",
         "credentialSubject": {
             "@context": [{
-                "gitCoinTrustBonus": "https://schema.org/Float",
+                "gitCoinTrustBonus": {
+                    "@id": "https://gitcoin.co/gitCoinTrustBonus",
+                    "@type": "https://schema.org/Float"
+                }
             }],
-            "id": subject,
-            "gitCoinTrustBonus": gitCoinTrustBonus,
+            "id":
+            subject,
+            "gitCoinTrustBonus":
+            gitCoinTrustBonus,
         },
     }
 
