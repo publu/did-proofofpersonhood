@@ -72,3 +72,13 @@ directory:
 $ npm install
 $ npm run dev
 ```
+
+## Verifying the Credentials
+
+You can use the verifier application by uploading a `.json` file.
+
+`didkit-cli` is also an option:
+
+```bash
+$ didkit vc-verify-credential -p assertionMethod < vc.json
+```
