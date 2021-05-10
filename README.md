@@ -20,34 +20,7 @@ $ sudo apt install -y python3.6 python3-pip
 - Django
 
 ```bash
-$ python3 -m pip install django
-```
-
-### Building DIDKit
-
-DIDKit is used to handle credentials and presentations, since it's not yet
-publically available in PyPI manual installation is required.
-
-To do so got to the root folder of this repository and run:
-```bash
-$ make -C lib install-python
-```
-
-For the verifier the `node` version of the library also needs to be built:
-```bash
-$ make -C lib ../target/test/node.stamp
-```
-
-Then you will have to link it using `npm`
-
-On the library directory (`didkit/lib/node`) run:
-```bash
-$ npm link
-```
-
-And then, on the verifier directory (`popp-demo/verifier`) run:
-```bash
-$ npm link didkit
+$ python3 -m pip install django didkit
 ```
 
 ## Running

@@ -1,4 +1,4 @@
-import { verifyCredential } from "didkit";
+import { verifyCredential } from "@spruceid/didkit";
 
 export const verify = (credential: any): boolean => {
   const proofPurpose = "assertionMethod";
